@@ -102,6 +102,8 @@ class HttpClient implements RequestInterceptable, ResponseInterceptable
 		// 4. Get the response from Bank server
 		$res_payload = curl_exec($this->curl);
 		if ($res_payload === false) {
+			// @TEMP
+			print_r(curl_getinfo($this->curl));
 			throw new \Exception("curl_exec: " . curl_error($this->curl));
 		}
 
