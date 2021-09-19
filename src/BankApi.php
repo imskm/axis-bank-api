@@ -10,6 +10,8 @@ use AxisBankApi\Interceptors\ResponseInterceptor;
 class BankApi
 {
 	const PROPNAME_GET_BALANCE 	= "GetAccountBalance";
+	const PROPNAME_FUND_TRANSFER = "TransferPayment";
+
 	const URL_GET_STATUS 		= "/acct-recon/get-status";
 	const URL_GET_BALANCE 		= "/acct-recon/get-balance";
 	const URL_BENEFICIARY_REG 	= "/payee-mgmt/beneficiary-registration";
