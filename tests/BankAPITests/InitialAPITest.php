@@ -13,7 +13,9 @@ use PHPUnit\Framework\TestCase;
  */
 class InitialAPITest extends TestCase
 {
-	public function test_get_balance()
+	private $axis_bank;
+
+	public function setUp(): void
 	{
 		define("ROOT", dirname(dirname(__DIR__)));
 		$key_filepath 			= ROOT . "/temp/cert/jplive-key.key";
@@ -44,34 +46,13 @@ class InitialAPITest extends TestCase
 			$bank_corpaccnum,
 			$base_api_url
 		);
-
-		// var_dump($request_uuid, $request_channel_id, $key);
-		// $this->assertTrue(true);
-		// return;
-
 		$axis_bank = new BankApi($bank_api_config, $http_client);
+	}
 
-		/*
-		$axis_bank = new BankApi(
-			$key,
-			$client_id,
-			$client_secret,
-			$request_uuid,
-			$request_channel_id,
-			$bank_corpcode,
-			$bank_corpaccnum,
-			$base_api_url
-		);
+	public function test_get_balance()
+	{
+		$balance = $this->axis_bank->balance->get();
 
-		$axis_bank->configureClientCertificate(
-			$cert_filepath,
-			$key_filepath,
-			$key_password
-		);
-		*/
-
-		$balance = $axis_bank->balance->get();
-
-		$this->assertTrue(true);
+		$this->assertTrue((bool) $balance);
 	}
 }
