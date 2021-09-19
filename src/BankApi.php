@@ -19,31 +19,12 @@ class BankApi
 		"balance", "benficiary"
 	];
 
-	private $client_id;
-	private $client_secret;
-	private $request_uuid;
-	private $request_channel_id;
-	private $key;
-	private $bank_corpcode;
-	private $bank_corpaccnum;
-
-	private $cert_filepath;
-	private $privkey_filepath;
-	private $privkey_password;
-
 	private $http_client;
-
 	public $bankapi_config;
 
 	public function __construct(BankApiConfig $config, HttpClient $http_client)
 	{
 		$this->bankapi_config = $config;
-
-		$this->key 					= $config->key;
-		$this->request_uuid 		= $config->request_uuid;
-		$this->request_channel_id 	= $config->request_channel_id;
-		$this->bank_corpcode 		= $config->bank_corpcode;
-		$this->bank_corpaccnum 		= $config->bank_corpaccnum;
 
 		$this->http_client 			= $http_client;
 		// @TEMP
@@ -51,38 +32,12 @@ class BankApi
 
 		$this->balance 				= new BankBalance(
 			$this->http_client,
-			$this->request_channel_id,
-			$this->bank_corpcode,
-			$this->bank_corpaccnum,
-			$this->request_uuid,
+			$config->request_channel_id,
+			$config->bank_corpcode,
+			$config->bank_corpaccnum,
+			$config->request_uuid,
 			$this->bankapi_config
 		);
-	}
-
-	public function getBalance()
-	{
-		$headers = [
-			"Content-Type: application/json",
-			"X-IBM-Client-Id: {$client_id}",
-			"X-IBM-Client-Secret: {$client_secret}",
-		];
-
-		$request_body_subheader = [
-			"SubHeader" => [
-				"requestUUID" 			=> $request_uuid,
-				"serviceRequestId" 		=> "OpenAPI",
-				"serviceRequestVersion" => "1.0",
-				"channelId" 			=> $request_channel_id,
-			],
-		];
-		$body = [
-			"GetAccountBalanceRequest" => $request_body_subheader,
-			"GetAccountBalanceRequestBody" => [
-				"channelId" 	=> $request_channel_id,
-				"corpCode" 		=> $bank_corpcode,
-				"corpAccNum" 	=> $bank_corpaccnum,
-			],
-		];
 	}
 
 	public function __get($property)
