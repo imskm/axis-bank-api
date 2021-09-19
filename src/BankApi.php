@@ -59,19 +59,6 @@ class BankApi
 		);
 	}
 
-	public function configureClientCertificate($cert_filepath, $key_filepath, $key_password)
-	{
-		$this->cert_filepath 		= $cert_filepath;
-		$this->privkey_filepath 	= $key_filepath;
-		$this->privkey_password 	= $key_password;
-
-		$this->http_client->configureClientCertificate(
-			$this->cert_filepath,
-			$this->privkey_filepath,
-			$this->privkey_password
-		);
-	}
-
 	public function getBalance()
 	{
 		$headers = [

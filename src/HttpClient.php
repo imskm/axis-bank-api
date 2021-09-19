@@ -48,6 +48,7 @@ class HttpClient implements RequestInterceptable, ResponseInterceptable
 		}
 
 		$this->setupCurl();
+		$this->configure2WaySSL();
 	}
 
 	public function tempSetUpOldConfig(BankApiConfig &$config)
@@ -78,15 +79,6 @@ class HttpClient implements RequestInterceptable, ResponseInterceptable
 		curl_setopt($this->curl, CURLOPT_SSLCERT, $this->cert_filepath);
 		curl_setopt($this->curl, CURLOPT_SSLKEY, $this->privkey_filepath);
 		curl_setopt($this->curl, CURLOPT_KEYPASSWD, $this->privkey_password);
-	}
-
-	public function configureClientCertificate($cert_filepath, $privkey_filepath, $privkey_password)
-	{
-		$this->cert_filepath 		= $cert_filepath;
-		$this->privkey_filepath 	= $privkey_filepath;
-		$this->privkey_password 	= $privkey_password;
-
-		$this->configure2WaySSL();
 	}
 
 	public function request(string $url, RequestBodyStruct $req_body)
