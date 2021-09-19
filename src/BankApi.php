@@ -28,16 +28,11 @@ class BankApi
 	{
 		$this->bankapi_config = $config;
 
-		$this->http_client 			= $http_client;
+		$this->http_client = $http_client;
 		$this->http_client->setRequestInterceptor(new RequestInterceptor($this->bankapi_config));
 		$this->http_client->setResponseInterceptor(new ResponseInterceptor($this->bankapi_config));
-		// @TEMP
-		$this->http_client->tempSetUpOldConfig($config);
 
-		$this->balance 				= new BankBalance(
-			$this->http_client,
-			$this->bankapi_config
-		);
+		$this->balance = new BankBalance($this->http_client, $this->bankapi_config);
 	}
 
 	public function __get($property)

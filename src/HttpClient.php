@@ -11,7 +11,6 @@ use AxisBankApi\Interfaces\ResponseInterceptable;
 
 class HttpClient
 {
-	private $key;
 	private $client_id;
 	private $client_secret;
 
@@ -46,11 +45,6 @@ class HttpClient
 
 		$this->setupCurl();
 		$this->configure2WaySSL();
-	}
-
-	public function tempSetUpOldConfig(BankApiConfig &$config)
-	{
-		$this->key 					= $config->key;
 	}
 
 	private function setupCurl()
