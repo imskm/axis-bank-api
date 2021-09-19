@@ -46,7 +46,7 @@ class InitialAPITest extends TestCase
 			$bank_corpaccnum,
 			$base_api_url
 		);
-		$axis_bank = new BankApi($bank_api_config, $http_client);
+		$this->axis_bank = new BankApi($bank_api_config, $http_client);
 	}
 
 	public function test_get_balance()
