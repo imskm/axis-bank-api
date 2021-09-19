@@ -53,9 +53,7 @@ class BankResponseBody implements ResponseBodyStruct
 				$this->getResponseBodyPropName() => $this->getBodyProperties()
 			]
 		];
-		// $response_body_as_obj = new \stdClass();
-		// $response_body_as_obj->{$this->getRootPropName()} = new \stdClass();
-		// $response_body_as_obj->{$this->getRootPropName()}->SubHeader = $this->getResponsePayloadHeader();
+
 		return (object) $result;
 	}
 	

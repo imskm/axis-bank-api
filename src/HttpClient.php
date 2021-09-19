@@ -16,8 +16,6 @@ class HttpClient implements RequestInterceptable, ResponseInterceptable
 	private $key;
 	private $client_id;
 	private $client_secret;
-	private $request_uuid;
-	private $request_channel_id;
 
 	private $cert_filepath;
 	private $privkey_filepath;
@@ -54,8 +52,6 @@ class HttpClient implements RequestInterceptable, ResponseInterceptable
 	public function tempSetUpOldConfig(BankApiConfig &$config)
 	{
 		$this->key 					= $config->key;
-		$this->request_uuid 		= $config->request_uuid;
-		$this->request_channel_id 	= $config->request_channel_id;
 	}
 
 	private function setupCurl()
