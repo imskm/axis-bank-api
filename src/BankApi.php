@@ -32,10 +32,6 @@ class BankApi
 
 		$this->balance 				= new BankBalance(
 			$this->http_client,
-			$config->request_channel_id,
-			$config->bank_corpcode,
-			$config->bank_corpaccnum,
-			$config->request_uuid,
 			$this->bankapi_config
 		);
 	}

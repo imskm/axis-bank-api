@@ -15,14 +15,14 @@ class BankBalance
 
 	private $bankapi_config;
 
-	public function __construct(HttpClient &$http_client, $channel_id, $corpcode, $corpaccnum, $request_uuid, &$config)
+	public function __construct(HttpClient &$http_client, &$bankapi_config)
 	{
 		$this->http_client 			= $http_client;
-		$this->channel_id 			= $channel_id;
-		$this->bank_corpcode 		= $corpcode;
-		$this->bank_corpaccnum 		= $corpaccnum;
-		$this->request_uuid 		= $request_uuid;
-		$this->bankapi_config 		= $config;
+		$this->channel_id 			= $bankapi_config->request_channel_id;
+		$this->bank_corpcode 		= $bankapi_config->bank_corpcode;
+		$this->bank_corpaccnum 		= $bankapi_config->bank_corpaccnum;
+		$this->request_uuid 		= $bankapi_config->request_uuid;
+		$this->bankapi_config 		= $bankapi_config;
 	}
 
 	public function get()
