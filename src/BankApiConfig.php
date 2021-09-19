@@ -12,6 +12,7 @@ class BankApiConfig
 	public $bank_corpcode;
 	public $bank_corpaccnum;
 	public $base_api_url;
+	public $cipher = "aes-128-cbc";
 
 	public $api_url_get_balance;
 

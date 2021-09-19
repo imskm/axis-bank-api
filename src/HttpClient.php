@@ -5,13 +5,11 @@ namespace AxisBankApi;
 use AxisBankApi\BankApi;
 use AxisBankApi\BankApiConfig;
 use AxisBankApi\BankResponseBody;
-use AxisBankApi\Traits\RequestInterceptor;
-use AxisBankApi\Traits\ResponseInterceptor;
 use AxisBankApi\Interfaces\RequestBodyStruct;
 use AxisBankApi\Interfaces\RequestInterceptable;
 use AxisBankApi\Interfaces\ResponseInterceptable;
 
-class HttpClient implements RequestInterceptable, ResponseInterceptable
+class HttpClient
 {
 	private $key;
 	private $client_id;
@@ -23,7 +21,8 @@ class HttpClient implements RequestInterceptable, ResponseInterceptable
 
 	private $curl;
 
-	use RequestInterceptor, ResponseInterceptor;
+	private $req_interceptor;
+	private $res_interceptor;
 
 	public function __construct(
 		$privkey_filepath,
@@ -77,10 +76,26 @@ class HttpClient implements RequestInterceptable, ResponseInterceptable
 		curl_setopt($this->curl, CURLOPT_KEYPASSWD, $this->privkey_password);
 	}
 
+	public function setRequestInterceptor(RequestInterceptable $req_interceptor)
+	{
+		$this->req_interceptor = $req_interceptor;
+	}
+
+	public function setResponseInterceptor(ResponseInterceptable $res_interceptor)
+	{
+		$this->res_interceptor = $res_interceptor;
+	}
+
 	public function request(string $url, RequestBodyStruct $req_body)
 	{
 		// 1. Get the JSON request body from request interceptor
-		$req_payload = $this->processRequestBody($req_body);
+		if ($this->req_interceptor) {
+			$req_payload = $this->req_interceptor->processRequestBody($req_body);
+		} else {
+			// @TODO Test this case when request interceptor is not set then
+			// $req_payload is generated correctly for curl
+			$req_payload = $req_body->getBodyProperties();
+		}
 
 		// 2. Setup the API request URL
 		curl_setopt($this->curl, CURLOPT_URL, $url);
@@ -97,7 +112,13 @@ class HttpClient implements RequestInterceptable, ResponseInterceptable
 
 		// 5. Get the PHP object version of response body from response interceptor
 		$res_body = new BankResponseBody($req_body->root_propname);
-		$response = $this->processResponseBody($res_payload, $res_body);
+		if ($this->res_interceptor) {
+			$response = $this->res_interceptor->processResponseBody($res_payload, $res_body);
+		} else {
+			// @TODO Test this case when response interceptor is not set then
+			// $response will be exactly as $res_body coming from HTTP Response body
+			$response = $res_body;
+		}
 		
 		// 6. Return the result to caller
 		return $response;

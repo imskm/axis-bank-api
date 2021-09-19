@@ -1,11 +1,26 @@
 <?php
 
-namespace AxisBankApi\Traits;
+namespace AxisBankApi\Interceptors;
 
+use AxisBankApi\BankApiConfig;
 use AxisBankApi\Interfaces\ResponseBodyStruct;
+use AxisBankApi\Interfaces\ResponseInterceptable;
 
-trait ResponseInterceptor
+class ResponseInterceptor implements ResponseInterceptable
 {
+	private $bankapi_config;
+
+	private $key;
+	private $cipher;
+
+	public function __construct(BankApiConfig &$bankapi_config)
+	{
+		$this->bankapi_config = $bankapi_config;
+
+		$this->key = $bankapi_config->key;
+		$this->cipher = $bankapi_config->cipher;
+	}
+
 	public function processResponseBody(string $res_payload, ResponseBodyStruct &$res_body): object
 	{
 		// JSON decode response payload.

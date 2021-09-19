@@ -1,12 +1,24 @@
 <?php
 
-namespace AxisBankApi\Traits;
+namespace AxisBankApi\Interceptors;
 
+use AxisBankApi\BankApiConfig;
 use AxisBankApi\Interfaces\RequestBodyStruct;
+use AxisBankApi\Interfaces\RequestInterceptable;
 
-trait RequestInterceptor
+class RequestInterceptor implements RequestInterceptable
 {
+	private $bankapi_config;
 	private $cipher = "aes-128-cbc";
+	private $key;
+
+	public function __construct(BankApiConfig &$bankapi_config)
+	{
+		$this->bankapi_config = $bankapi_config;
+	
+		$this->cipher = $bankapi_config->cipher;
+		$this->key = $bankapi_config->key;
+	}
 
 	public function processRequestBody(RequestBodyStruct &$req_body): string
 	{

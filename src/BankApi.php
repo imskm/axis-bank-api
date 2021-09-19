@@ -4,6 +4,8 @@ namespace AxisBankApi;
 
 use AxisBankApi\HttpClient;
 use AxisBankApi\BankApiConfig;
+use AxisBankApi\Interceptors\RequestInterceptor;
+use AxisBankApi\Interceptors\ResponseInterceptor;
 
 class BankApi
 {
@@ -27,6 +29,8 @@ class BankApi
 		$this->bankapi_config = $config;
 
 		$this->http_client 			= $http_client;
+		$this->http_client->setRequestInterceptor(new RequestInterceptor($this->bankapi_config));
+		$this->http_client->setResponseInterceptor(new ResponseInterceptor($this->bankapi_config));
 		// @TEMP
 		$this->http_client->tempSetUpOldConfig($config);
 
