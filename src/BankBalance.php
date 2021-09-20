@@ -98,6 +98,6 @@ class BankBalance
 		echo "\n\nBank Balance - Fund Transfer:\n";
 		var_dump($this->response_data);
 
-		return $this->response_data->status === "S";
+		return $this->response_full->status === "S";
 	}
 }
