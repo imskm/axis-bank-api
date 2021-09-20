@@ -83,6 +83,7 @@ class InitialAPITest extends TestCase
 		$bank_account = [
 			"acct_holder" 	=> "RANCO INDUSTRIES",
 			"acct_number" 	=> "914020013977038",
+			"bene_code" 	=> "RAI15235", // @NOTE This can be alpha numeric code upto 30 chars (this can be your internal user id)
 			"bank_ifsc"		=> "SBIN0007959",
 			"bank_name"		=> "STATE BANK OF INDIA",
 		];
@@ -93,6 +94,7 @@ class InitialAPITest extends TestCase
 		$this->assertTrue(
 			$this->axis_bank->balance->to($bank_account)->transfer($txn_amount)
 		);
+		$this->assertNotNull($this->axis_bank->balance->txn_ref);
 
 		// Needed by test_transfer_status()
 		$this->last_transfer_txn_ref = $this->axis_bank->balance->txn_ref;
