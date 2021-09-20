@@ -10,7 +10,9 @@ class BankBalance
 	private $bankapi_config;
 	private $to_bank_account;
 	public $response_full;
+	public $response_body;
 	public $response_data;
+	public $txn_ref;
 
 	public function __construct(HttpClient &$http_client, &$bankapi_config)
 	{
@@ -99,5 +101,37 @@ class BankBalance
 		var_dump($this->response_data);
 
 		return $this->response_full->status === "S";
+	}
+
+	public function transferStatus(string $txn_ref)
+	{
+		$request_body = new BankRequestBody(
+			BankApi::PROPNAME_GET_STATUS,
+			$this->bankapi_config->request_uuid,
+			$this->bankapi_config->request_channel_id
+		);
+		$request_body->setBodyProperties([
+			"channelId" 	=> $this->bankapi_config->request_channel_id,
+			"corpCode" 		=> $this->bankapi_config->bank_corpcode,
+			"crn" 			=> $txn_ref,
+		]);
+
+		$url = $this->bankapi_config->api_url_get_status;
+		$this->response_body = $this->http_client->request($url, $request_body);
+
+		// @TODO check response status (API request ran successfully or not)
+		$this->response_data = $this->response_body->data;
+		echo "\n\nBank Balance - Get Status of '{$txn_ref}':\n";
+		var_dump($this->response_data);
+
+		if (empty($this->response_data)) {
+			throw new \Exception("Response data is empty.");
+		}
+
+		if (!isset($this->response_data->CUR_TXN_ENQ) || !$this->response_data->CUR_TXN_ENQ) {
+			throw new \Exception("Invalid response body structure, expected field not found.");
+		}
+
+		return $this->response_data->CUR_TXN_ENQ->transactionStatus;
 	}
 }

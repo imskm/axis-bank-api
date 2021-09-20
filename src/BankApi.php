@@ -11,6 +11,7 @@ class BankApi
 {
 	const PROPNAME_GET_BALANCE 	= "GetAccountBalance";
 	const PROPNAME_FUND_TRANSFER = "TransferPayment";
+	const PROPNAME_GET_STATUS 	= "GetStatus";
 
 	const URL_GET_STATUS 		= "/acct-recon/get-status";
 	const URL_GET_BALANCE 		= "/acct-recon/get-balance";

@@ -16,6 +16,7 @@ class BankApiConfig
 
 	public $api_url_get_balance;
 	public $api_url_fund_transfer;
+	public $api_url_get_status;
 
 	public function __construct(
 		$key,
@@ -35,5 +36,6 @@ class BankApiConfig
 
 		$this->api_url_get_balance = $this->base_api_url . BankApi::URL_GET_BALANCE;
 		$this->api_url_fund_transfer = $this->base_api_url . BankApi::URL_FUND_TRANSFER;
+		$this->api_url_get_status = $this->base_api_url . BankApi::URL_GET_STATUS;
 	}
 }
