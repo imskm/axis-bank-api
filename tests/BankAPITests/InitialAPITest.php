@@ -29,8 +29,6 @@ class InitialAPITest extends TestCase
 	private static $bank_corpaccnum;
 	private static $base_api_url;
 
-	private static $last_transfer_txn_ref;
-
 	public static function setUpBeforeClass(): void
 	{
 		define("ROOT", dirname(dirname(__DIR__)));
