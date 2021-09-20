@@ -72,7 +72,7 @@ class BankBalance
 
 		// Setup the Transfer Payment data body
 		// @TODO Write a better unique txn ref generator
-		$this->txn_ref = random_int(1000, 999999);
+		$this->txn_ref = "" . random_int(1000, 999999);
 		$request_body->setBodyProperties([
 			"channelId" 	=> $this->bankapi_config->request_channel_id,
 			"corpCode" 		=> $this->bankapi_config->bank_corpcode,
