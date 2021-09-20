@@ -102,7 +102,8 @@ class InitialAPITest extends TestCase
 
 	public function test_transfer_status()
 	{
+		// status is array: transferStatus() can fetch status of multiple transactions
 		$status = $this->axis_bank->balance->transferStatus(self::$last_transfer_txn_ref);
-		$this->assertNotEmpty($status);
+		$this->assertIsObject($status);
 	}
 }

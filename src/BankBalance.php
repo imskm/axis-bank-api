@@ -103,7 +103,14 @@ class BankBalance
 		return $this->response_full->status === "S";
 	}
 
-	public function transferStatus(string $txn_ref)
+	/**
+	 * @param $txn_ref string|int|array Transaction reference number
+	 *
+	 * @return mixed  If $txn_ref is string then the return value will be single object
+	 *                or if $txn_ref is an array then return value will be array of
+	 *                objects each representing status of single transaction
+	 */
+	public function transferStatus($txn_ref)
 	{
 		$request_body = new BankRequestBody(
 			BankApi::PROPNAME_GET_STATUS,
@@ -132,6 +139,8 @@ class BankBalance
 			throw new \Exception("Invalid response body structure, expected field not found.");
 		}
 
-		return $this->response_data->CUR_TXN_ENQ->transactionStatus;
+		return !is_array($txn_ref)
+			? array_pop($this->response_data->CUR_TXN_ENQ)
+			: $this->response_data->CUR_TXN_ENQ;
 	}
 }
