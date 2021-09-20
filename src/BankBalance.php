@@ -84,7 +84,7 @@ class BankBalance
 					"valueDate"		=> date("Y-m-d"),
 					"txnAmount" 	=> $txn_amount,
 					"beneName"		=> $this->to_bank_account->acct_holder,
-					"beneCode"		=> "",
+					"beneCode"		=> $this->to_bank_account->bene_code,
 					"beneAccNum"	=> $this->to_bank_account->acct_number,
 					"beneIfscCode"	=> $this->to_bank_account->bank_ifsc,
 					"beneBankName"	=> $this->to_bank_account->bank_name,
