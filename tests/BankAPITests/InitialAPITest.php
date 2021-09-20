@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  */
 class InitialAPITest extends TestCase
 {
-	private $last_transfer_txn_ref;
+	private static $last_transfer_txn_ref;
 	private $axis_bank;
 
 	private static $key_filepath;
@@ -28,6 +28,8 @@ class InitialAPITest extends TestCase
 	private static $bank_corpcode;
 	private static $bank_corpaccnum;
 	private static $base_api_url;
+
+	private static $last_transfer_txn_ref;
 
 	public static function setUpBeforeClass(): void
 	{
@@ -97,12 +99,12 @@ class InitialAPITest extends TestCase
 		$this->assertNotNull($this->axis_bank->balance->txn_ref);
 
 		// Needed by test_transfer_status()
-		$this->last_transfer_txn_ref = $this->axis_bank->balance->txn_ref;
+		self::$last_transfer_txn_ref = $this->axis_bank->balance->txn_ref;
 	}
 
 	public function test_transfer_status()
 	{
-		$status = $this->axis_bank->balance->transferStatus($this->last_transfer_txn_ref);
+		$status = $this->axis_bank->balance->transferStatus(self::$last_transfer_txn_ref);
 		$this->assertNotEmpty($status);
 	}
 }
