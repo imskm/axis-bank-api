@@ -165,8 +165,8 @@ class GetBalanceTest extends TestCase
 			self::$key,
 			self::$request_uuid,
 			self::$request_channel_id,
+			self::$bank_corpcode,
 			"000010100017000", // @NOTE Intentionally given incorrect debit account no for this case
-			self::$bank_corpaccnum,
 			self::$base_api_url
 		);
 
