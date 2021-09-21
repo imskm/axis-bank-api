@@ -47,14 +47,25 @@ class BankResponseBody implements ResponseBodyStruct
 
 	public function getNonEncryptedResponsePayload(): object
 	{
-		$result = [
+		$response_payload = [
 			$this->getRootPropName() => [
 				"SubHeader" => $this->getResponsePayloadHeader(),
 				$this->getResponseBodyPropName() => $this->getBodyProperties()
 			]
 		];
 
-		return (object) $result;
+		return (object) $response_payload;
+	}
+
+	public function getNonEncryptedResponsePayloadAsJsonString(): string
+	{
+		$response_payload = $this->getNonEncryptedResponsePayload();
+		$response_payload_json = json_encode($response_payload);
+		if ($response_payload_json === false) {
+			throw new \Exception("Failed to encode response payload in JSON format.");
+		}
+
+		return $response_payload_json;
 	}
 	
 	public function getEncryptedResponsePayload()

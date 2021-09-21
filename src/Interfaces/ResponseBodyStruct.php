@@ -15,6 +15,8 @@ interface ResponseBodyStruct
 	public function setBodyProperties(object $body): ResponseBodyStruct;
 
 	public function getNonEncryptedResponsePayload(): object;
+
+	public function getNonEncryptedResponsePayloadAsJsonString(): string;
 	
 	public function getEncryptedResponsePayload();
 	
