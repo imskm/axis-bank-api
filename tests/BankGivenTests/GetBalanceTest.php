@@ -6,6 +6,7 @@ use AxisBankApi\BankApi;
 use AxisBankApi\HttpClient;
 use AxisBankApi\BankApiConfig;
 use PHPUnit\Framework\TestCase;
+use AxisBankApi\Exceptions\ResponsePayloadFailure;
 
 /**
  * GetBalanceTest
@@ -105,8 +106,8 @@ class GetBalanceTest extends TestCase
 
 		$axis_bank = new BankApi($bank_api_config, $http_client);
 
+		$this->expectException(ResponsePayloadFailure::class);
 		$balance = $axis_bank->balance->get();
-		$this->assertTrue(true);
 	}
 
 	// Test special chars in file
