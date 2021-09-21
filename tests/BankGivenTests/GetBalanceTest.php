@@ -79,6 +79,11 @@ class GetBalanceTest extends TestCase
 	}
 
 	// Error for invalid checksum
+	// @NOTE This test is not possible to generate since the checksum calculation is
+	// done in the library so to test this I need to deliberately wrong the checksum
+	// calculation function so that it will generate invalid checksum.
+	// But if I do this then all the test except this one will start to fail.
+	// Therefore this test will always fail, you need to test it seperately
 	public function test_case_2()
 	{
 		echo __FUNCTION__ . "\n";
