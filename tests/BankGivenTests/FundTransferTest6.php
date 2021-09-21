@@ -109,10 +109,10 @@ class FundTransferTest6 extends TestCase
 		$this->assertTrue(
 			$axis_bank->balance->to($bank_account)->transferNEFT($txn_amount)
 		);
-		$this->assertNotNull($this->axis_bank->balance->txn_ref);
+		$this->assertNotNull($axis_bank->balance->txn_ref);
 
 		// Needed by test_transfer_status()
-		self::$last_transfer_txn_ref = $this->axis_bank->balance->txn_ref;
+		self::$last_transfer_txn_ref = $axis_bank->balance->txn_ref;
 	}
 
 	// NEFT status check of last transaction

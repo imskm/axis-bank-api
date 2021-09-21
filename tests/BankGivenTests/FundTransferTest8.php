@@ -111,7 +111,7 @@ class FundTransferTest8 extends TestCase
 		);
 
 		// Needed by test_transfer_status()
-		self::$last_transfer_txn_ref = $this->axis_bank->balance->txn_ref;
+		self::$last_transfer_txn_ref = $axis_bank->balance->txn_ref;
 	}
 
 	// IMPS status check of last transaction
