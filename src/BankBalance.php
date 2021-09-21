@@ -3,13 +3,13 @@
 namespace AxisBankApi;
 
 use AxisBankApi\BankApi;
+use AxisBankApi\Exceptions\ResponsePayloadFailure;
 
 class BankBalance
 {
 	private $http_client;
 	private $bankapi_config;
 	private $to_bank_account;
-	public $response_full;
 	public $response_body;
 	public $response_data;
 	public $txn_ref;
@@ -34,12 +34,15 @@ class BankBalance
 		]);
 
 		$url = $this->bankapi_config->api_url_get_balance;
-		$this->response_full = $this->http_client->request($url, $request_body);
+		$this->response_body = $this->http_client->request($url, $request_body);
 
 		// @TODO check response status (API request ran successfully or not)
-		$this->response_data = $this->response_full->data;
+		$this->response_data = $this->response_body->data;
 		echo "\n\nBank Balance - Get Balance:\n";
 		var_dump($this->response_data);
+		if ($this->response_body->status === "F") {
+			throw new ResponsePayloadFailure($this->response_body->message);
+		}
 
 		return $this->response_data->Balance;
 	}
@@ -93,14 +96,17 @@ class BankBalance
 		]);
 
 		$url = $this->bankapi_config->api_url_fund_transfer;
-		$this->response_full = $this->http_client->request($url, $request_body);
+		$this->response_body = $this->http_client->request($url, $request_body);
 
 		// @TODO check response status (API request ran successfully or not)
-		$this->response_data = $this->response_full->data;
+		$this->response_data = $this->response_body->data;
 		echo "\n\nBank Balance - Fund Transfer:\n";
 		var_dump($this->response_data);
+		if ($this->response_body->status === "F") {
+			throw new ResponsePayloadFailure($this->response_body->message);
+		}
 
-		return $this->response_full->status === "S";
+		return $this->response_body->status === "S";
 	}
 
 	/**
@@ -130,13 +136,8 @@ class BankBalance
 		$this->response_data = $this->response_body->data;
 		echo "\n\nBank Balance - Get Status of '{$txn_ref}':\n";
 		var_dump($this->response_data);
-
-		if (empty($this->response_data)) {
-			throw new \Exception("Response data is empty.");
-		}
-
-		if (!isset($this->response_data->CUR_TXN_ENQ) || !$this->response_data->CUR_TXN_ENQ) {
-			throw new \Exception("Invalid response body structure, expected field not found.");
+		if ($this->response_body->status === "F") {
+			throw new ResponsePayloadFailure($this->response_body->message);
 		}
 
 		return !is_array($txn_ref)
