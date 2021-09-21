@@ -79,7 +79,7 @@ class GetBalanceTest extends TestCase
 	// Error for invalid checksum
 	public function test_case_2()
 	{
-		$this->expectsException(\Exception::class);
+		$this->expectException(\Exception::class);
 		$balance = $this->axis_bank->balance->get();
 	}
 
