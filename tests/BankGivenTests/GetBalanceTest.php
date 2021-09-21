@@ -131,7 +131,9 @@ class GetBalanceTest extends TestCase
 		);
 
 		$axis_bank = new BankApi($bank_api_config, $http_client);
-		$this->assertTrue(true);
+
+		$this->expectException(ResponsePayloadFailure::class);
+		$axis_bank->balance->get();
 	}
 
 	// Verify for the correct data entered
@@ -140,5 +142,31 @@ class GetBalanceTest extends TestCase
 		$balance = $this->axis_bank->balance->get();
 
 		$this->assertTrue((bool) $balance);
+	}
+
+	// Verify for debit account number incorrect
+	public function test_case_6()
+	{
+		$http_client = new HttpClient(
+			self::$key_filepath,
+			self::$key_password,
+			self::$cert_filepath,
+			self::$client_id,
+			self::$client_secret
+		);
+
+		$bank_api_config = new BankApiConfig(
+			self::$key,
+			self::$request_uuid,
+			self::$request_channel_id,
+			"000010100017000", // @NOTE Intentionally given incorrect debit account no for this case
+			self::$bank_corpaccnum,
+			self::$base_api_url
+		);
+
+		$axis_bank = new BankApi($bank_api_config, $http_client);
+
+		$this->expectException(ResponsePayloadFailure::class);
+		$axis_bank->balance->get();
 	}
 }
