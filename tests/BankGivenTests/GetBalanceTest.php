@@ -72,6 +72,7 @@ class GetBalanceTest extends TestCase
 
 	public function test_case_1()
 	{
+		echo __FUNCTION__ . "\n";
 		$balance = $this->axis_bank->balance->get();
 
 		$this->assertTrue((bool) $balance);
@@ -80,6 +81,7 @@ class GetBalanceTest extends TestCase
 	// Error for invalid checksum
 	public function test_case_2()
 	{
+		echo __FUNCTION__ . "\n";
 		$this->expectException(\Exception::class);
 		$balance = $this->axis_bank->balance->get();
 	}
@@ -87,6 +89,7 @@ class GetBalanceTest extends TestCase
 	// Request validation (Null value received in mandatory field)
 	public function test_case_3()
 	{
+		echo __FUNCTION__ . "\n";
 		$http_client = new HttpClient(
 			self::$key_filepath,
 			self::$key_password,
@@ -113,6 +116,7 @@ class GetBalanceTest extends TestCase
 	// Test special chars in file
 	public function test_case_4()
 	{
+		echo __FUNCTION__ . "\n";
 		$http_client = new HttpClient(
 			self::$key_filepath,
 			self::$key_password,
@@ -139,6 +143,7 @@ class GetBalanceTest extends TestCase
 	// Verify for the correct data entered
 	public function test_case_5()
 	{
+		echo __FUNCTION__ . "\n";
 		$balance = $this->axis_bank->balance->get();
 
 		$this->assertTrue((bool) $balance);
@@ -147,6 +152,7 @@ class GetBalanceTest extends TestCase
 	// Verify for debit account number incorrect
 	public function test_case_6()
 	{
+		echo __FUNCTION__ . "\n";
 		$http_client = new HttpClient(
 			self::$key_filepath,
 			self::$key_password,
