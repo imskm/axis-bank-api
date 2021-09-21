@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use AxisBankApi\BankApi;
+use AxisBankApi\HttpClient;
+use AxisBankApi\BankApiConfig;
 use PHPUnit\Framework\TestCase;
 
 /**
