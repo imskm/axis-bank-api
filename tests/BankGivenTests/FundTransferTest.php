@@ -139,8 +139,9 @@ class FundTransferTest extends TestCase
 
 		$bank_account = [
 			"acct_holder" 	=> "RANCO INDUSTRIES",
-			"acct_number" 	=> "", // @NOTE acct_number left empty intentionally to test this case
-			"bene_code" 	=> "RAI15235", // @NOTE This can be alpha numeric code upto 30 chars (this can be your internal user id)
+			"acct_number" 	=> "914020013977038",
+			"bene_code" 	=> "",  // @NOTE bene_code left empty intentionally to test this case
+									// @NOTE This can be alpha numeric code upto 30 chars (this can be your internal user id)
 			"bank_ifsc"		=> "SBIN0007959",
 			"bank_name"		=> "STATE BANK OF INDIA",
 		];
@@ -176,8 +177,8 @@ class FundTransferTest extends TestCase
 		$axis_bank = new BankApi($bank_api_config, $http_client);
 
 		$bank_account = [
-			"acct_holder" 	=> "RANCO INDUSTRIES" . "#", // @NOTE Added '#' (special char) intentionally for testing this case
-			"acct_number" 	=> "914020013977038",
+			"acct_holder" 	=> "RANCO INDUSTRIES",
+			"acct_number" 	=> "91402001397703" . "#", // @NOTE Added '#' (special char) intentionally for testing this case
 			"bene_code" 	=> "RAI15235", // @NOTE This can be alpha numeric code upto 30 chars (this can be your internal user id)
 			"bank_ifsc"		=> "SBIN0007959",
 			"bank_name"		=> "STATE BANK OF INDIA",
@@ -188,161 +189,5 @@ class FundTransferTest extends TestCase
 
 		$this->expectException(ResponsePayloadFailure::class);
 		$axis_bank->balance->to($bank_account)->transfer($txn_amount);
-	}
-
-	// RTGS transaction is initiated
-	public function test_case_5()
-	{
-		echo "\n" . __FUNCTION__ . "\n";
-		$http_client = new HttpClient(
-			self::$key_filepath,
-			self::$key_password,
-			self::$cert_filepath,
-			self::$client_id,
-			self::$client_secret
-		);
-
-		$bank_api_config = new BankApiConfig(
-			self::$key,
-			self::$request_uuid,
-			self::$request_channel_id,
-			self::$bank_corpcode,
-			self::$bank_corpaccnum,
-			self::$base_api_url
-		);
-
-		$axis_bank = new BankApi($bank_api_config, $http_client);
-
-		$bank_account = [
-			"acct_holder" 	=> "RANCO INDUSTRIES",
-			"acct_number" 	=> "914020013977038",
-			"bene_code" 	=> "RAI15235", // @NOTE This can be alpha numeric code upto 30 chars (this can be your internal user id)
-			"bank_ifsc"		=> "SBIN0007959",
-			"bank_name"		=> "STATE BANK OF INDIA",
-		];
-		// Convert/Cast associative array to PHP standard object
-		$bank_account = (object) $bank_account;
-		$txn_amount = 500;
-
-		$this->assertTrue(
-			$axis_bank->balance->to($bank_account)->transferRTGS($txn_amount)
-		);
-	}
-
-	// NEFT transaction is initiated
-	public function test_case_6()
-	{
-		echo "\n" . __FUNCTION__ . "\n";
-		$http_client = new HttpClient(
-			self::$key_filepath,
-			self::$key_password,
-			self::$cert_filepath,
-			self::$client_id,
-			self::$client_secret
-		);
-
-		$bank_api_config = new BankApiConfig(
-			self::$key,
-			self::$request_uuid,
-			self::$request_channel_id,
-			self::$bank_corpcode,
-			self::$bank_corpaccnum,
-			self::$base_api_url
-		);
-
-		$axis_bank = new BankApi($bank_api_config, $http_client);
-
-		$bank_account = [
-			"acct_holder" 	=> "RANCO INDUSTRIES",
-			"acct_number" 	=> "914020013977038",
-			"bene_code" 	=> "RAI15235", // @NOTE This can be alpha numeric code upto 30 chars (this can be your internal user id)
-			"bank_ifsc"		=> "SBIN0007959",
-			"bank_name"		=> "STATE BANK OF INDIA",
-		];
-		// Convert/Cast associative array to PHP standard object
-		$bank_account = (object) $bank_account;
-		$txn_amount = 500;
-
-		$this->assertTrue(
-			$axis_bank->balance->to($bank_account)->transferNEFT($txn_amount)
-		);
-	}
-
-	// FT transaction is initiated
-	public function test_case_7()
-	{
-		echo "\n" . __FUNCTION__ . "\n";
-		$http_client = new HttpClient(
-			self::$key_filepath,
-			self::$key_password,
-			self::$cert_filepath,
-			self::$client_id,
-			self::$client_secret
-		);
-
-		$bank_api_config = new BankApiConfig(
-			self::$key,
-			self::$request_uuid,
-			self::$request_channel_id,
-			self::$bank_corpcode,
-			self::$bank_corpaccnum,
-			self::$base_api_url
-		);
-
-		$axis_bank = new BankApi($bank_api_config, $http_client);
-
-		$bank_account = [
-			"acct_holder" 	=> "RANCO INDUSTRIES",
-			"acct_number" 	=> "917010000000319", // Axis bank account number
-			"bene_code" 	=> "RAI15235", // @NOTE This can be alpha numeric code upto 30 chars (this can be your internal user id)
-			"bank_ifsc"		=> "UTIB0000870", // Axis bank IFSC code
-			"bank_name"		=> "Axis Bank",
-		];
-		// Convert/Cast associative array to PHP standard object
-		$bank_account = (object) $bank_account;
-		$txn_amount = 500;
-
-		$this->assertTrue(
-			$axis_bank->balance->to($bank_account)->transferFT($txn_amount)
-		);
-	}
-
-	// IMPS transaction is initiated
-	public function test_case_8()
-	{
-		echo "\n" . __FUNCTION__ . "\n";
-		$http_client = new HttpClient(
-			self::$key_filepath,
-			self::$key_password,
-			self::$cert_filepath,
-			self::$client_id,
-			self::$client_secret
-		);
-
-		$bank_api_config = new BankApiConfig(
-			self::$key,
-			self::$request_uuid,
-			self::$request_channel_id,
-			self::$bank_corpcode,
-			self::$bank_corpaccnum,
-			self::$base_api_url
-		);
-
-		$axis_bank = new BankApi($bank_api_config, $http_client);
-
-		$bank_account = [
-			"acct_holder" 	=> "RANCO INDUSTRIES",
-			"acct_number" 	=> "914020013977038",
-			"bene_code" 	=> "RAI15235", // @NOTE This can be alpha numeric code upto 30 chars (this can be your internal user id)
-			"bank_ifsc"		=> "SBIN0007959",
-			"bank_name"		=> "STATE BANK OF INDIA",
-		];
-		// Convert/Cast associative array to PHP standard object
-		$bank_account = (object) $bank_account;
-		$txn_amount = 500;
-
-		$this->assertTrue(
-			$axis_bank->balance->to($bank_account)->transfer($txn_amount)
-		);
 	}
 }
