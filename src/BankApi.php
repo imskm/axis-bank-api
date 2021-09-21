@@ -19,6 +19,13 @@ class BankApi
 	const URL_BENEFICIARY_ENQ 	= "/payee-mgmt/beneficiary-enquiry";
 	const URL_FUND_TRANSFER 	= "/payments/transfer-payment";
 
+	const TRANSFER_METHOD_RTGS 	= "RT";
+	const TRANSFER_METHOD_NEFT 	= "NE";
+	const TRANSFER_METHOD_IMPS 	= "PA";
+	const TRANSFER_METHOD_FUNDTRANSFER 	= "FT";
+	const TRANSFER_METHOD_CORPCHEQUE 	= "CC";
+	const TRANSFER_METHOD_DDRAFT 		= "DD";
+
 	public $balance;
 	protected $apis = [
 		"balance", "benficiary"
