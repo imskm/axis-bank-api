@@ -58,6 +58,9 @@ class ResponseInterceptor implements ResponseInterceptable
 
 		echo "Non encrypted Response body\n";
 		var_dump($res_body->getNonEncryptedResponsePayload());
+		echo "\nNon encrypted response body (JSON)\n";
+		echo $res_body->getNonEncryptedResponsePayloadAsJsonString();
+		echo "\n";
 
 		// Check the status of the response
 		return $res_body->getBodyProperties();
