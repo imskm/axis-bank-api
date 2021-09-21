@@ -10,6 +10,7 @@ class BankBalance
 	private $http_client;
 	private $bankapi_config;
 	private $to_bank_account;
+	private $fund_transfer_method = BankApi::TRANSFER_METHOD_IMPS;
 	public $response_body;
 	public $response_data;
 	public $txn_ref;
@@ -81,7 +82,7 @@ class BankBalance
 			"corpCode" 		=> $this->bankapi_config->bank_corpcode,
 			"paymentDetails" => [
 				[
-					"txnPaymode"	=> "PA", // IMPS
+					"txnPaymode"	=> $this->fund_transfer_method, // IMPS
 					"custUniqRef"	=> $this->txn_ref,
 					"corpAccNum" 	=> $this->bankapi_config->bank_corpaccnum,
 					"valueDate"		=> date("Y-m-d"),
@@ -107,6 +108,35 @@ class BankBalance
 		}
 
 		return $this->response_body->status === "S";
+	}
+
+	public function transferRTGS($txn_amount)
+	{
+		$this->fund_transfer_method = BankApi::TRANSFER_METHOD_RTGS;
+
+		return $this->transfer($txn_amount);
+	}
+
+	public function transferNEFT($txn_amount)
+	{
+		$this->fund_transfer_method = BankApi::TRANSFER_METHOD_NEFT;
+
+		return $this->transfer($txn_amount);
+	}
+
+	public function transferIMPS($txn_amount)
+	{
+		$this->fund_transfer_method = BankApi::TRANSFER_METHOD_IMPS;
+
+		return $this->transfer($txn_amount);
+	}
+
+	// @TODO Only Axis to Axis is allowed
+	public function transferFT($txn_amount)
+	{
+		$this->fund_transfer_method = BankApi::TRANSFER_METHOD_FUNDTRANSFER;
+
+		return $this->transfer($txn_amount);
 	}
 
 	/**
