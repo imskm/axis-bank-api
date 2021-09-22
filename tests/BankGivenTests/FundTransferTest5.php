@@ -104,7 +104,7 @@ class FundTransferTest5 extends TestCase
 		];
 		// Convert/Cast associative array to PHP standard object
 		$bank_account = (object) $bank_account;
-		$txn_amount = 500;
+		$txn_amount = 300000;
 
 		$this->assertTrue(
 			$axis_bank->balance->to($bank_account)->transferRTGS($txn_amount)
