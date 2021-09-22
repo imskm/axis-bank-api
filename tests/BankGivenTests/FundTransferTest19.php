@@ -99,7 +99,7 @@ class FundTransferTest19 extends TestCase
 
 		$bank_account = [
 			"acct_holder" 	=> "RANCO INDUSTRIES",
-			"acct_number" 	=> "910020000000000",
+			"acct_number" 	=> "910020000000000", // @NOTE Account does not exist
 			"bene_code" 	=> "RAI15235", // @NOTE This can be alpha numeric code upto 30 chars (this can be your internal user id)
 			"bank_ifsc"		=> "SBIN0007959",
 			"bank_name"		=> "STATE BANK OF INDIA",
@@ -108,7 +108,7 @@ class FundTransferTest19 extends TestCase
 		$bank_account = (object) $bank_account;
 		$txn_amount = 150000;
 
-		$axis_bank->balance->to($bank_account)->transfer($txn_amount);
+		$axis_bank->balance->to($bank_account)->transferNEFT($txn_amount);
 		$this->assertNotNull($axis_bank->balance->txn_ref);
 		self::$last_transfer_txn_ref = $axis_bank->balance->txn_ref;
 	}
@@ -120,6 +120,6 @@ class FundTransferTest19 extends TestCase
 		// status is array: transferStatus() can fetch status of multiple transactions
 		$status = $this->axis_bank->balance->transferStatus(self::$last_transfer_txn_ref);
 		$this->assertIsObject($status);
-		$this->assertSame("RETURN", $status->status);
+		$this->assertSame("RETURN", $status->transactionStatus);
 	}
 }
