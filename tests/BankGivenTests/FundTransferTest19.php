@@ -9,10 +9,10 @@ use PHPUnit\Framework\TestCase;
 use AxisBankApi\Exceptions\ResponsePayloadFailure;
 
 /**
- * FundTransferTest20
+ * FundTransferTest19
  * RTGS transaction is initiated
  */
-class FundTransferTest20 extends TestCase
+class FundTransferTest19 extends TestCase
 {
 	private static $last_transfer_txn_ref;
 	private $axis_bank;
