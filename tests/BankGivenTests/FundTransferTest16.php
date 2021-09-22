@@ -14,7 +14,7 @@ use AxisBankApi\Exceptions\ResponsePayloadFailure;
  */
 class FundTransferTest16 extends TestCase
 {
-	private static $last_transfer_txn_ref = "526146"; // @NOTE This crn is for RTGS which is at the time of this test in PENDING status
+	private static $last_transfer_txn_ref = "393954"; // @NOTE This crn is for RTGS which is at the time of this test in PENDING status
 	private $axis_bank;
 
 	private static $key_filepath;
