@@ -164,7 +164,8 @@ class BankBalance
 
 		// @TODO check response status (API request ran successfully or not)
 		$this->response_data = $this->response_body->data;
-		echo "\n\nBank Balance - Get Status of '{$txn_ref}':\n";
+		$s = sprintf("\n\nBank Balance - Get Status of '%s':\n", serialize($txn_ref));
+		echo $s;
 		var_dump($this->response_data);
 		if ($this->response_body->status === "F") {
 			throw new ResponsePayloadFailure($this->response_body->message);
