@@ -104,7 +104,7 @@ class FundTransferTest17 extends TestCase
 		];
 		// Convert/Cast associative array to PHP standard object
 		$bank_account = (object) $bank_account;
-		$txn_amount = 16000;
+		$txn_amount = 500;
 
 		// Set duplicate crn
 		$axis_bank->balance->txn_ref = self::$last_transfer_txn_ref;

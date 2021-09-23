@@ -99,7 +99,7 @@ class FundTransferTest18 extends TestCase
 			"acct_holder" 	=> "RANCO INDUSTRIES",
 			"acct_number" 	=> "914020013977038",
 			"bene_code" 	=> "RAI15235", // @NOTE This can be alpha numeric code upto 30 chars (this can be your internal user id)
-			"bank_ifsc"		=> "SBKN0000000", // @NOTE Wrong IFSC, intentionally set to test this case
+			"bank_ifsc"		=> "SBKN00000", // @NOTE Wrong IFSC, intentionally set to test this case
 			"bank_name"		=> "STATE BANK OF INDIA",
 		];
 		// Convert/Cast associative array to PHP standard object
