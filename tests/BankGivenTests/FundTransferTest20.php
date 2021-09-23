@@ -72,8 +72,8 @@ class FundTransferTest20 extends TestCase
 		$this->axis_bank = null;
 	}
 
-	// Amount less than 2,00,000 is initiated for RTGS
-	public function test_case_20_minimum_amount_is_not_sent_for_RTGS()
+	// Amount less that Rs 2 Lakh is initiated for RTGS
+	public function test_case_20_RTGS_transfer_below_minimun_amount()
 	{
 		echo "\n" . __FUNCTION__ . "\n";
 		$http_client = new HttpClient(
@@ -104,9 +104,26 @@ class FundTransferTest20 extends TestCase
 		];
 		// Convert/Cast associative array to PHP standard object
 		$bank_account = (object) $bank_account;
-		$txn_amount = 150000;
+		$txn_amount = 30000;
 
-		$this->expectException(ResponsePayloadFailure::class);
-		$axis_bank->balance->to($bank_account)->transfer($txn_amount);
+		$this->assertTrue(
+			$axis_bank->balance->to($bank_account)->transferRTGS($txn_amount)
+		);
+		$this->assertNotNull($axis_bank->balance->txn_ref);
+
+		// Needed by test_transfer_status()
+		self::$last_transfer_txn_ref = $axis_bank->balance->txn_ref;
+	}
+
+	// RTGS status check of last transaction
+	public function test_case_20_RTGS_check_transfer_status_should_be_rejected()
+	{
+		// Sleep for 30 seconds here, let the bank server update the status of last
+		// transaction
+		sleep(30);
+		// status is array: transferStatus() can fetch status of multiple transactions
+		$status = $this->axis_bank->balance->transferStatus(self::$last_transfer_txn_ref);
+		$this->assertIsObject($status);
+		$this->assertSame("REJECTED", $status->transactionStatus);
 	}
 }
