@@ -106,8 +106,21 @@ class FundTransferTest18 extends TestCase
 		$bank_account = (object) $bank_account;
 		$txn_amount = 16000;
 
-		// Set duplicate crn
-		$this->expectException(ResponsePayloadFailure::class);
-		$axis_bank->balance->to($bank_account)->transfer($txn_amount);
+		$this->assertTrue(
+			$axis_bank->balance->to($bank_account)->transfer($txn_amount)
+		);
+		self::$last_transfer_txn_ref = $axis_bank->balance->txn_ref;
+	}
+
+	// FT status check of last transaction
+	public function test_case_7_FT_check_transfer_status()
+	{
+		// Sleep for 30 seconds here, let the bank server update the status of last
+		// transaction
+		sleep(30);
+		// status is array: transferStatus() can fetch status of multiple transactions
+		$status = $this->axis_bank->balance->transferStatus(self::$last_transfer_txn_ref);
+		$this->assertIsObject($status);
+		$this->assertSame("REJECTED", $status->transferStatus);
 	}
 }
