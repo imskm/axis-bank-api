@@ -121,6 +121,6 @@ class FundTransferTest18 extends TestCase
 		// status is array: transferStatus() can fetch status of multiple transactions
 		$status = $this->axis_bank->balance->transferStatus(self::$last_transfer_txn_ref);
 		$this->assertIsObject($status);
-		$this->assertSame("REJECTED", $status->transferStatus);
+		$this->assertSame("REJECTED", $status->transactionStatus);
 	}
 }
