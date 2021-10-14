@@ -59,14 +59,14 @@ class BankBalance
 
 		if ($this->bankapi_config->verbosityLevel() >= 1) {
 			BankUtil::printDebugLines(
-				$response_body->getNonEncryptedResponsePayload(),
+				$response_body->getNonEncryptedResponsePayloadArray(),
 				"Bank Balance - Get Balance:",
 				"json"
 			);
 		}
 		if ($this->bankapi_config->verbosityLevel() >= 2) {
 			BankUtil::printDebugLines(
-				$response_body->getNonEncryptedResponsePayload(),
+				$response_body->getNonEncryptedResponsePayloadArray(),
 				"Bank Balance - Get Balance:",
 				"dump"
 			);
@@ -150,14 +150,14 @@ class BankBalance
 
 		if ($this->bankapi_config->verbosityLevel() >= 1) {
 			BankUtil::printDebugLines(
-				$response_body->getNonEncryptedResponsePayload(),
+				$response_body->getNonEncryptedResponsePayloadArray(),
 				"Bank Balance - Fund Transfer:",
 				"json"
 			);
 		}
 		if ($this->bankapi_config->verbosityLevel() >= 2) {
 			BankUtil::printDebugLines(
-				$response_body->getNonEncryptedResponsePayload(),
+				$response_body->getNonEncryptedResponsePayloadArray(),
 				"Bank Balance - Fund Transfer:",
 				"dump"
 			);
@@ -243,14 +243,14 @@ class BankBalance
 
 		if ($this->bankapi_config->verbosityLevel() >= 1) {
 			BankUtil::printDebugLines(
-				$response_body->getNonEncryptedResponsePayload(),
+				$response_body->getNonEncryptedResponsePayloadArray(),
 				$s,
 				"json"
 			);
 		}
 		if ($this->bankapi_config->verbosityLevel() >= 2) {
 			BankUtil::printDebugLines(
-				$response_body->getNonEncryptedResponsePayload(),
+				$response_body->getNonEncryptedResponsePayloadArray(),
 				$s,
 				"dump"
 			);
