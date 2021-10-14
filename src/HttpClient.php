@@ -111,14 +111,16 @@ class HttpClient
 		// 5. Get the PHP object version of response body from response interceptor
 		$res_body = new BankResponseBody($req_body->root_propname);
 		if ($this->res_interceptor) {
+			// @NOTE $response is response body coming from bank server in PHP Array
+			// you can do additional processing here with this data if you want
 			$response = $this->res_interceptor->processResponseBody($res_payload, $res_body);
 		} else {
 			// @TODO Test this case when response interceptor is not set then
-			// $response will be exactly as $res_body coming from HTTP Response body
+			// then call the default interceptor.
 			$response = $res_body;
 		}
 		
 		// 6. Return the result to caller
-		return $response;
+		return $res_body;
 	}
 }
