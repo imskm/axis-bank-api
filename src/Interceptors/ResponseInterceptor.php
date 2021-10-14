@@ -2,6 +2,7 @@
 
 namespace AxisBankApi\Interceptors;
 
+use AxisBankApi\BankUtil;
 use AxisBankApi\BankApiConfig;
 use AxisBankApi\Interfaces\ResponseBodyStruct;
 use AxisBankApi\Interfaces\ResponseInterceptable;
@@ -55,12 +56,6 @@ class ResponseInterceptor implements ResponseInterceptable
 		$res_body->setBodyProperties($response_decrypted_body);
 
 		// @TODO Verify checksum
-
-		echo "Non encrypted Response body\n";
-		var_dump($res_body->getNonEncryptedResponsePayload());
-		echo "\nNon encrypted response body (JSON)\n";
-		echo $res_body->getNonEncryptedResponsePayloadAsJsonString();
-		echo "\n";
 
 		// Check the status of the response
 		return $res_body->getBodyProperties();

@@ -23,12 +23,15 @@ class HttpClient
 	private $req_interceptor;
 	private $res_interceptor;
 
+	public $verbosity;
+
 	public function __construct(
 		$privkey_filepath,
 		$privkey_password,
 		$cert_filepath,
 		$client_id,
-		$client_secret
+		$client_secret,
+		$verbosity = 0
 	)
 	{
 		$this->privkey_filepath = $privkey_filepath;
@@ -36,6 +39,7 @@ class HttpClient
 		$this->cert_filepath 	= $cert_filepath;
 		$this->client_id 		= $client_id;
 		$this->client_secret 	= $client_secret;
+		$this->verbosity 		= $verbosity;
 
 
 		$this->curl 				= curl_init();
@@ -59,8 +63,10 @@ class HttpClient
 		curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST, '2');
 		curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, '1');
-		curl_setopt($this->curl, CURLOPT_VERBOSE, true);
 		curl_setopt($this->curl, CURLOPT_POST, true);
+		if (is_int($this->verbosity) && $this->verbosity >= 3) {
+			curl_setopt($this->curl, CURLOPT_VERBOSE, true);
+		}
 	}
 
 	private function configure2WaySSL()
@@ -99,8 +105,6 @@ class HttpClient
 		// 4. Get the response from Bank server
 		$res_payload = curl_exec($this->curl);
 		if ($res_payload === false) {
-			// @TEMP
-			print_r(curl_getinfo($this->curl));
 			throw new \Exception("curl_exec: " . curl_error($this->curl));
 		}
 

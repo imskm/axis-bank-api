@@ -2,6 +2,7 @@
 
 namespace AxisBankApi\Interceptors;
 
+use AxisBankApi\BankUtil;
 use AxisBankApi\BankApiConfig;
 use AxisBankApi\Interfaces\RequestBodyStruct;
 use AxisBankApi\Interfaces\RequestInterceptable;
@@ -36,8 +37,13 @@ class RequestInterceptor implements RequestInterceptable
 			throw new \Exception("Failed to encode into JSON");
 		}
 
-		echo "\n\nNon Encrypted Request Body:\n";
-		print_r($req_body->getNonEncryptedRequestPayload());
+		if ($this->bankapi_config->verbosityLevel() >= 2) {
+			BankUtil::printDebugLines(
+				$req_body->getNonEncryptedRequestPayload(),
+				"Non Encrypted Request Body:",
+				"pretty"
+			);
+		}
 
 		// Generate random IV (Initialisation Vector)
 		// Check if PHP has $cipher algo available
@@ -57,9 +63,6 @@ class RequestInterceptor implements RequestInterceptable
 			throw new \Exception("openssl_encrypt: {$error_msg}");
 		}
 
-		// echo "\nciphertext\n";
-		// var_dump($ciphertext);
-
 		// Prepending $iv in $ciphertext for reciever to use iv for decryption
 		$iv_ciphertext = $iv . $ciphertext;
 
@@ -67,16 +70,8 @@ class RequestInterceptor implements RequestInterceptable
 		$request_body_encrypted = base64_encode($iv_ciphertext);
 		$req_body->setEncryptedRequestBody($request_body_encrypted);
 
-		// echo "Encrypted body:\n";
-		// echo $request_body_encrypted;
-		// echo PHP_EOL;
-
 		// Final Request Body Payload
 		$request_body = $req_body->getEncryptedRequestPayloadAsJsonString();
-
-		echo "\n\nFinal request body payload (JSON):\n";
-		var_dump($request_body);
-		echo PHP_EOL;
 
 		return $request_body;
 	}

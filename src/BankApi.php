@@ -26,6 +26,9 @@ class BankApi
 	const TRANSFER_METHOD_CORPCHEQUE 	= "CC";
 	const TRANSFER_METHOD_DDRAFT 		= "DD";
 
+	const MIN_VERBOSITY_LEVEL = 0;
+	const MAX_VERBOSITY_LEVEL = 3;
+
 	public $balance;
 	protected $apis = [
 		"balance", "benficiary"

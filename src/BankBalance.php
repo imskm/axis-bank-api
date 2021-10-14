@@ -3,6 +3,7 @@
 namespace AxisBankApi;
 
 use AxisBankApi\BankApi;
+use AxisBankApi\BankUtil;
 use AxisBankApi\Exceptions\ResponsePayloadFailure;
 
 class BankBalance
@@ -35,12 +36,38 @@ class BankBalance
 		]);
 
 		$url = $this->bankapi_config->api_url_get_balance;
-		$this->response_body = $this->http_client->request($url, $request_body);
+		if ($this->bankapi_config->verbosityLevel() >= 1) {
+			BankUtil::printDebugLines(
+				$request_body->getNonEncryptedRequestPayload(),
+				"Bank Balance - Get Balance:",
+				"json"
+			);
+		}
+		if ($this->bankapi_config->verbosityLevel() >= 2) {
+			BankUtil::printDebugLines(
+				$request_body->getNonEncryptedRequestPayload(),
+				"Bank Balance - Get Balance:",
+				"dump"
+			);
+		}
 
-		// @TODO check response status (API request ran successfully or not)
+		$this->response_body = $this->http_client->request($url, $request_body);
 		$this->response_data = $this->response_body->data;
-		echo "\n\nBank Balance - Get Balance:\n";
-		var_dump($this->response_data);
+
+		if ($this->bankapi_config->verbosityLevel() >= 1) {
+			BankUtil::printDebugLines(
+				$this->response_body->getNonEncryptedResponsePayload(),
+				"Bank Balance - Get Balance:",
+				"json"
+			);
+		}
+		if ($this->bankapi_config->verbosityLevel() >= 2) {
+			BankUtil::printDebugLines(
+				$this->response_body->getNonEncryptedResponsePayload(),
+				"Bank Balance - Get Balance:",
+				"dump"
+			);
+		}
 		if ($this->response_body->status === "F") {
 			throw new ResponsePayloadFailure($this->response_body->message);
 		}
@@ -96,13 +123,39 @@ class BankBalance
 			],
 		]);
 
+		if ($this->bankapi_config->verbosityLevel() >= 1) {
+			BankUtil::printDebugLines(
+				$request_body->getNonEncryptedRequestPayload(),
+				"Bank Balance - Fund Transfer:",
+				"json"
+			);
+		}
+		if ($this->bankapi_config->verbosityLevel() >= 2) {
+			BankUtil::printDebugLines(
+				$this->response_body->getNonEncryptedRequestPayload(),
+				"Bank Balance - Fund Transfer:",
+				"dump"
+			);
+		}
+
 		$url = $this->bankapi_config->api_url_fund_transfer;
 		$this->response_body = $this->http_client->request($url, $request_body);
-
-		// @TODO check response status (API request ran successfully or not)
 		$this->response_data = $this->response_body->data;
-		echo "\n\nBank Balance - Fund Transfer:\n";
-		var_dump($this->response_data);
+
+		if ($this->bankapi_config->verbosityLevel() >= 1) {
+			BankUtil::printDebugLines(
+				$this->response_body->getNonEncryptedResponsePayload(),
+				"Bank Balance - Fund Transfer:",
+				"json"
+			);
+		}
+		if ($this->bankapi_config->verbosityLevel() >= 2) {
+			BankUtil::printDebugLines(
+				$this->response_body->getNonEncryptedResponsePayload(),
+				"Bank Balance - Fund Transfer:",
+				"dump"
+			);
+		}
 		if ($this->response_body->status === "F") {
 			throw new ResponsePayloadFailure($this->response_body->message);
 		}
@@ -159,14 +212,40 @@ class BankBalance
 			"crn" 			=> $txn_ref,
 		]);
 
+		$s = sprintf("\n\nBank Balance - Get Status of '%s':\n", serialize($txn_ref));
+		if ($this->bankapi_config->verbosityLevel() >= 1) {
+			BankUtil::printDebugLines(
+				$request_body->getNonEncryptedRequestPayload(),
+				$s,
+				"json"
+			);
+		}
+		if ($this->bankapi_config->verbosityLevel() >= 2) {
+			BankUtil::printDebugLines(
+				$request_body->getNonEncryptedRequestPayload(),
+				$s,
+				"dump"
+			);
+		}
+
 		$url = $this->bankapi_config->api_url_get_status;
 		$this->response_body = $this->http_client->request($url, $request_body);
-
-		// @TODO check response status (API request ran successfully or not)
 		$this->response_data = $this->response_body->data;
-		$s = sprintf("\n\nBank Balance - Get Status of '%s':\n", serialize($txn_ref));
-		echo $s;
-		var_dump($this->response_data);
+
+		if ($this->bankapi_config->verbosityLevel() >= 1) {
+			BankUtil::printDebugLines(
+				$this->response_body->getNonEncryptedResponsePayload(),
+				$s,
+				"json"
+			);
+		}
+		if ($this->bankapi_config->verbosityLevel() >= 2) {
+			BankUtil::printDebugLines(
+				$this->response_body->getNonEncryptedResponsePayload(),
+				$s,
+				"dump"
+			);
+		}
 		if ($this->response_body->status === "F") {
 			throw new ResponsePayloadFailure($this->response_body->message);
 		}

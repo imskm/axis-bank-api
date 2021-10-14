@@ -18,6 +18,8 @@ class BankApiConfig
 	public $api_url_fund_transfer;
 	public $api_url_get_status;
 
+	private $verbosity = 0;
+
 	public function __construct(
 		$key,
 		$request_uuid,
@@ -37,5 +39,20 @@ class BankApiConfig
 		$this->api_url_get_balance = $this->base_api_url . BankApi::URL_GET_BALANCE;
 		$this->api_url_fund_transfer = $this->base_api_url . BankApi::URL_FUND_TRANSFER;
 		$this->api_url_get_status = $this->base_api_url . BankApi::URL_GET_STATUS;
+	}
+
+	public function verbosityLevel(int $level = 0)
+	{
+		if (!$level) {
+			return $this->verbosity;
+		}
+
+		if ($level < BankApi::MIN_VERBOSITY_LEVEL || $level > BankApi::MAX_VERBOSITY_LEVEL) {
+			$this->verbosity = 0;
+		} else {
+			$this->verbosity = $level;
+		}
+
+		return $this->verbosity;
 	}
 }
