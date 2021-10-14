@@ -47,14 +47,17 @@ class BankResponseBody implements ResponseBodyStruct
 
 	public function getNonEncryptedResponsePayload(): object
 	{
-		$response_payload = [
+		return (object) $this->getNonEncryptedResponsePayloadArray();
+	}
+
+	public function getNonEncryptedResponsePayloadArray(): array
+	{
+		return $response_payload = [
 			$this->getRootPropName() => [
 				"SubHeader" => $this->getResponsePayloadHeader(),
 				$this->getResponseBodyPropName() => $this->getBodyProperties()
 			]
 		];
-
-		return (object) $response_payload;
 	}
 
 	public function getNonEncryptedResponsePayloadAsJsonString(): string
