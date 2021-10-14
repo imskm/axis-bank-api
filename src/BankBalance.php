@@ -51,19 +51,22 @@ class BankBalance
 			);
 		}
 
-		$this->response_body = $this->http_client->request($url, $request_body);
+		// @NOTE $response_body is instance of ResponseBodyStruct and
+		// $this->response_body is the actualy raw response body from bank in PHP Array
+		$response_body 		 = $this->http_client->request($url, $request_body);
+		$this->response_body = $response_body->getBodyProperties();
 		$this->response_data = $this->response_body->data;
 
 		if ($this->bankapi_config->verbosityLevel() >= 1) {
 			BankUtil::printDebugLines(
-				$this->response_body->getNonEncryptedResponsePayload(),
+				$response_body->getNonEncryptedResponsePayload(),
 				"Bank Balance - Get Balance:",
 				"json"
 			);
 		}
 		if ($this->bankapi_config->verbosityLevel() >= 2) {
 			BankUtil::printDebugLines(
-				$this->response_body->getNonEncryptedResponsePayload(),
+				$response_body->getNonEncryptedResponsePayload(),
 				"Bank Balance - Get Balance:",
 				"dump"
 			);
@@ -122,6 +125,7 @@ class BankBalance
 				],
 			],
 		]);
+		$url = $this->bankapi_config->api_url_fund_transfer;
 
 		if ($this->bankapi_config->verbosityLevel() >= 1) {
 			BankUtil::printDebugLines(
@@ -138,20 +142,22 @@ class BankBalance
 			);
 		}
 
-		$url = $this->bankapi_config->api_url_fund_transfer;
-		$this->response_body = $this->http_client->request($url, $request_body);
+		// @NOTE $response_body is instance of ResponseBodyStruct and
+		// $this->response_body is the actualy raw response body from bank in PHP Array
+		$response_body 		 = $this->http_client->request($url, $request_body);
+		$this->response_body = $response_body->getBodyProperties();
 		$this->response_data = $this->response_body->data;
 
 		if ($this->bankapi_config->verbosityLevel() >= 1) {
 			BankUtil::printDebugLines(
-				$this->response_body->getNonEncryptedResponsePayload(),
+				$response_body->getNonEncryptedResponsePayload(),
 				"Bank Balance - Fund Transfer:",
 				"json"
 			);
 		}
 		if ($this->bankapi_config->verbosityLevel() >= 2) {
 			BankUtil::printDebugLines(
-				$this->response_body->getNonEncryptedResponsePayload(),
+				$response_body->getNonEncryptedResponsePayload(),
 				"Bank Balance - Fund Transfer:",
 				"dump"
 			);
@@ -227,21 +233,24 @@ class BankBalance
 				"dump"
 			);
 		}
-
 		$url = $this->bankapi_config->api_url_get_status;
-		$this->response_body = $this->http_client->request($url, $request_body);
+
+		// @NOTE $response_body is instance of ResponseBodyStruct and
+		// $this->response_body is the actualy raw response body from bank in PHP Array
+		$response_body 		 = $this->http_client->request($url, $request_body);
+		$this->response_body = $response_body->getBodyProperties();
 		$this->response_data = $this->response_body->data;
 
 		if ($this->bankapi_config->verbosityLevel() >= 1) {
 			BankUtil::printDebugLines(
-				$this->response_body->getNonEncryptedResponsePayload(),
+				$response_body->getNonEncryptedResponsePayload(),
 				$s,
 				"json"
 			);
 		}
 		if ($this->bankapi_config->verbosityLevel() >= 2) {
 			BankUtil::printDebugLines(
-				$this->response_body->getNonEncryptedResponsePayload(),
+				$response_body->getNonEncryptedResponsePayload(),
 				$s,
 				"dump"
 			);
