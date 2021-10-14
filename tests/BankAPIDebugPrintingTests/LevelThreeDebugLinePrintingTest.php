@@ -80,7 +80,7 @@ class LevelThreeDebugLinePrintingTest extends TestCase
 	{
 		$balance = $this->axis_bank->balance->get();
 
-		$this->assertSame($this->verbosity, $this->axis_bank->bank_config->verbosityLevel());
+		$this->assertSame($this->verbosity, $this->axis_bank->bankapi_config->verbosityLevel());
 		$this->assertTrue((bool) $balance);
 	}
 }

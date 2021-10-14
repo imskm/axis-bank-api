@@ -76,7 +76,7 @@ class NoDebugLinePrintingTest extends TestCase
 	{
 		$balance = $this->axis_bank->balance->get();
 
-		$this->assertSame(0, $this->axis_bank->bank_config->verbosityLevel());
+		$this->assertSame(0, $this->axis_bank->bankapi_config->verbosityLevel());
 		$this->assertTrue((bool) $balance);
 	}
 }
