@@ -16,22 +16,21 @@ class BankUtil
 	public static function printDebugLines(array $data, $message = '', $format = 'json'): void
 	{
 		echo "\n\n====================\n";
-		if ($message) {
-			echo $message . PHP_EOL;
-		}
-
 		switch ($format) {
 			case 'json':
+				if ($message) echo $message . ' (json):' . PHP_EOL;
 				$result = json_encode($data, JSON_PRETTY_PRINT);
 				echo $result;
 				break;
 
 			case 'pretty':
+				if ($message) echo $message . ' (pretty):' . PHP_EOL;
 				print_r($data);
 				break;
 
 			case 'dump':
 			default:
+				if ($message) echo $message . ' (dump):' . PHP_EOL;
 				var_dump($data);
 				break;
 		}
